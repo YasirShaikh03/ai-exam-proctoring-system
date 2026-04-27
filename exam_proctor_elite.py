@@ -78,7 +78,7 @@ DEVICE_CLASS_IDS = {
 }
 CHEAT_DEVICE_IDS = {67, 63, 64, 65, 66}
 WARN_DEVICE_IDS  = {73, 74}
-
+# Developed by Yasir Shaikh | github.com/YasirShaikh03
 
 def _dl(url, path, label):
     print(f"⬇  Downloading {label} …")
@@ -159,7 +159,7 @@ class ElectronicDeviceDetector:
                                      swapRB=True, crop=False)
         self.net.setInput(blob)
         outs = self.net.forward(self.output_layers)
-
+# Developed by Yasir Shaikh | github.com/YasirShaikh03
         boxes, confs, class_ids = [], [], []
         for out in outs:
             for det in out:
@@ -287,7 +287,7 @@ def save_report(sid, cheat_count, dur, stats, events):
         "total_cheat_events": cheat_count,
         "risk_level":         risk,
         "stats":              stats,
-        "events":             events,
+        "events":             events,# Developed by Yasir Shaikh | github.com/YasirShaikh03
     }
     path = f"logs/report_{sid}.json"
     with open(path, "w", encoding="utf-8") as f:
@@ -340,7 +340,7 @@ class HeadPoseEstimator:
                 [[lms[i].x*self.W, lms[i].y*self.H] for i in POSE_IDS],
                 dtype=np.float64)
             ok, rvec, _ = cv2.solvePnP(MODEL_3D, pts2d, self.cam, self.dist,
-                                        flags=cv2.SOLVEPNP_ITERATIVE)
+                                        flags=cv2.SOLVEPNP_ITERATIVE)# Developed by Yasir Shaikh | github.com/YasirShaikh03
             if not ok: return 0.0, 0.0, 0.0
             R, _ = cv2.Rodrigues(rvec)
             return self._euler_from_R(R)
@@ -390,7 +390,7 @@ class IrisGazeEstimator:
             def vr(iris, eye_ids):
                 ys = [lms[i].y*H for i in eye_ids]
                 top, bot = min(ys), max(ys)
-                return (iris[1]-top)/(bot-top) if (bot-top) > 1 else 0.5
+                return (iris[1]-top)/(bot-top) if (bot-top) > 1 else 0.5# Developed by Yasir Shaikh | github.com/YasirShaikh03
 
             avg_h = (hr(li, ll, lr) + hr(ri, rl, rr)) / 2.0
             avg_v = (vr(li, LEFT_EYE) + vr(ri, RIGHT_EYE)) / 2.0
@@ -446,7 +446,7 @@ class EARBlinkDetector:
                 self.history.append(time.time())
             self._cnt = 0; self._cf = 0
         self._state = closed
-
+# Developed by Yasir Shaikh | github.com/YasirShaikh03
         now  = time.time()
         bpm  = len([t for t in self.history if now-t < 60])
         susp = (bpm < 6 or bpm > 40) if len(self.history) > 5 else False
@@ -494,7 +494,7 @@ class HeadMovementTracker:
 FACE_COLORS = [(0,220,0),(0,60,255),(0,200,255),(255,0,200),(0,165,255)]
 
 class MultiFaceTracker:
-    def __init__(self):
+    def __init__(self):# Developed by Yasir Shaikh | github.com/YasirShaikh03
         self.tracked = {}; self._next_id = 1
 
     def update(self, rects):
@@ -558,7 +558,7 @@ def draw_ui(frame, status, sc, cheat_ct, elapsed,
                 (52, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.85, clr, 2)
     mm, ss = elapsed//60, elapsed%60
     cv2.putText(frame, f"Cheats: {cheat_ct}",     (16, 90),      cv2.FONT_HERSHEY_SIMPLEX, 0.56, (200,200,200), 1)
-    cv2.putText(frame, f"Time: {mm:02d}:{ss:02d}", (w//2-55, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.56, (200,200,200), 1)
+    cv2.putText(frame, f"Time: {mm:02d}:{ss:02d}", (w//2-55, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.56, (200,200,200), 1)# Developed by Yasir Shaikh | github.com/YasirShaikh03
     cv2.putText(frame, f"FPS: {fps:.1f}",          (w-115, 90),   cv2.FONT_HERSHEY_SIMPLEX, 0.52, (120,120,120), 1)
     gc = (30,30,255) if ("Left" in gaze_label or "Right" in gaze_label) else (140,220,255)
     cv2.putText(frame, gaze_label, (w-270, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.60, gc, 1)
@@ -598,7 +598,7 @@ def draw_ui(frame, status, sc, cheat_ct, elapsed,
             tx, ty = (w-tw)//2, h//2+24
             cv2.putText(frame, txt, (tx+2, ty+2), cv2.FONT_HERSHEY_SIMPLEX, 1.15, (0,0,0),       4)
             cv2.putText(frame, txt, (tx,   ty),   cv2.FONT_HERSHEY_SIMPLEX, 1.15, (30,30,255),   3)
-    elif is_warn and int(t*2) % 2 == 0:
+    elif is_warn and int(t*2) % 2 == 0:# Developed by Yasir Shaikh | github.com/YasirShaikh03
         txt = "SUSPICIOUS BEHAVIOR"
         (tw, _), _ = cv2.getTextSize(txt, cv2.FONT_HERSHEY_SIMPLEX, 0.9, 2)
         cv2.putText(frame, txt, ((w-tw)//2, h//2+24), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (30,160,255), 2)
@@ -658,7 +658,7 @@ for backend, name in [(cv2.CAP_DSHOW,"DirectShow"),
                       (cv2.CAP_MSMF, "Media Foundation"),
                       (0,            "Default")]:
     try:
-        cap = cv2.VideoCapture(0, backend)
+        cap = cv2.VideoCapture(0, backend)# Developed by Yasir Shaikh | github.com/YasirShaikh03
         if cap.isOpened():
             ret, _ = cap.read()
             if ret: print(f"✓ Camera: {name}"); break
@@ -717,7 +717,7 @@ stats = {
     "head_left":0, "head_right":0, "head_tilt_up":0, "face_tilt_down":0,
     "eye_gaze_left":0, "eye_gaze_right":0, "no_face":0, "multiple_faces":0,
     "eyes_closed_ext":0, "too_close":0, "too_far":0,
-    "blink_abnormal":0, "fidgeting":0,
+    "blink_abnormal":0, "fidgeting":0,# Developed by Yasir Shaikh | github.com/YasirShaikh03
     "device_phone":0, "device_laptop":0, "device_keyboard":0,
     "device_mouse":0, "device_remote":0, "device_book":0,
     "device_smartwatch":0,
@@ -760,7 +760,7 @@ while cap.isOpened():
     if frame_count % 10 == 0:
         fps = 10 / max(time.time()-fps_timer, 0.001)
         fps_timer = time.time()
-
+# Developed by Yasir Shaikh | github.com/YasirShaikh03
     rgb    = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     mp_img = Image(image_format=ImageFormat.SRGB, data=rgb)
     result = face_landmarker.detect_for_video(mp_img, frame_ts_ms)
@@ -812,7 +812,7 @@ while cap.isOpened():
     if face_count > 1:
         for (fx, fy, fw, fh), fid in labeled_f:
             clr = FACE_COLORS[(fid-1) % len(FACE_COLORS)]
-            cv2.rectangle(frame, (fx, fy), (fx+fw, fy+fh), clr, 3)
+            cv2.rectangle(frame, (fx, fy), (fx+fw, fy+fh), clr, 3)# Developed by Yasir Shaikh | github.com/YasirShaikh03
             badge = f"FACE #{fid}"
             (bw, bh), _ = cv2.getTextSize(badge, cv2.FONT_HERSHEY_SIMPLEX, 0.60, 2)
             cv2.rectangle(frame, (fx, fy-bh-10), (fx+bw+8, fy), clr, -1)
@@ -849,12 +849,13 @@ while cap.isOpened():
             cv2.circle(frame, (int(lms[i].x*W), int(lms[i].y*H)), 1, (30,80,30), -1)
 
         xs = [int(l.x*W) for l in lms]; ys = [int(l.y*H) for l in lms]
-        fx, fy = min(xs), min(ys); fw, fh = max(xs)-fx, max(ys)-fy
+        fx, fy = min(xs), min(ys); fw, fh = max(xs)-fx, max(ys)-fy# Developed by Yasir Shaikh | github.com/YasirShaikh03
         fcx, fcy = fx+fw//2, fy+fh//2
         cv2.rectangle(frame, (fx, fy), (fx+fw, fy+fh), (0,200,0), 2)
 
         move_dir, variance, fidgeting = move_tracker.update(fcx, fcy)
         if fidgeting: flag_soft("fidgeting", f"var={variance:.1f}", "fidgeting")
+          # Developed by Yasir Shaikh | github.com/YasirShaikh03
 
         dist_status, dist_ratio = dist_chk.check(fw, W)
         if dist_status != "OK":
@@ -864,7 +865,7 @@ while cap.isOpened():
                 raw_status = dist_status; status_class = "WARN"
 
         _, ear_val, blink_bpm, blink_sus, ext_closed = blink_det.update(lms, W, H)
-        if blink_sus: flag_soft("blink_abnormal", f"bpm={blink_bpm}", "blink_abnormal")
+        if blink_sus: flag_soft("blink_abnormal", f"bpm={blink_bpm}", "blink_abnormal")# Developed by Yasir Shaikh | github.com/YasirShaikh03
         if ext_closed:
             flag_soft("eyes_closed_ext", "shut >1.5s", "eyes_closed_ext")
             if status_class == "OK":
@@ -923,7 +924,7 @@ while cap.isOpened():
     if   k == 27: break
     elif k in (ord('d'), ord('D')): show_debug = not show_debug
     elif k in (ord('r'), ord('R')):
-        cheat_count = 0; warn_buf.clear()
+        cheat_count = 0; warn_buf.clear()# Developed by Yasir Shaikh | github.com/YasirShaikh03
         print("  [RESET] Cheat counter cleared.")
     elif k in (ord('s'), ord('S')):
         os.makedirs("screenshots", exist_ok=True)
